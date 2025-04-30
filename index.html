@@ -69,16 +69,8 @@
       margin: 10px 0;
     }
 
-    .line.fade-out {
-      animation: fadeOut 1s forwards;
-    }
-
     @keyframes fadeIn {
       to { opacity: 1; }
-    }
-
-    @keyframes fadeOut {
-      to { opacity: 0; }
     }
 
     #playBtn {
@@ -113,66 +105,63 @@
   <audio id="bgMusic" src="sound_puisi.mp3" loop></audio>
 
   <script>
-    const lyrics = [
-      "jadikan aku rumahmu",
-      "pergilah kemanapun dan bersama siapapun yang kamu mau",
-      "tapi.. saat kamu merasa perjalananmu sudah selesai",
-      "pulanglah..",
-      "karena akulah orang itu",
-      "orang yang selalu..",
-      "bangga memilikimu"
-    ];
+  const lyrics = [
+    "jadikan aku rumahmu",
+    "pergilah kemanapun dan bersama siapapun yang kamu mau",
+    "tapi.. saat kamu merasa perjalananmu sudah selesai",
+    "pulanglah..",
+    "karena akulah orang itu",
+    "orang yang selalu..",
+    "bangga memilikimu"
+  ];
 
-    const customDelays = [0, 2000, 5000, 8000, 11000, 12000, 14000];
-    const lyricsContainer = document.getElementById("lyrics");
+  const customDelays = [0, 2000, 5000, 8000, 11000, 12000, 14000];
 
-    function showLyricsLoop() {
-      lyricsContainer.innerHTML = "";
+  const lyricsContainer = document.getElementById("lyrics");
 
-      lyrics.forEach((line, index) => {
-        const lineDiv = document.createElement("div");
-        lineDiv.classList.add("line");
-        const delaySeconds = customDelays[index] / 1000;
-        lineDiv.style.animationDelay = `${delaySeconds}s`;
-        lineDiv.textContent = line;
-        lyricsContainer.appendChild(lineDiv);
+  function showLyricsLoop() {
+    lyricsContainer.innerHTML = "";
 
-        // Tambahkan efek fade-out setelah tampil 2 detik
-        setTimeout(() => {
-          lineDiv.classList.add("fade-out");
-        }, customDelays[index] + 2000);
-      });
-
-      const totalDuration = customDelays[customDelays.length - 1] + 7000;
-      setTimeout(showLyricsLoop, totalDuration); // loop ulang
-    }
-
-    function generateStars() {
-      const starsContainer = document.getElementById("stars");
-      for (let i = 0; i < 100; i++) {
-        const star = document.createElement("div");
-        star.classList.add("star");
-        const size = Math.random() * 2 + 1;
-        const duration = Math.random() * 10 + 5;
-        const left = Math.random() * 100;
-        const delay = Math.random() * 10;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.left = `${left}%`;
-        star.style.top = `-10px`;
-        star.style.animationDuration = `${duration}s`;
-        star.style.animationDelay = `${delay}s`;
-        starsContainer.appendChild(star);
-      }
-    }
-
-    document.getElementById('playBtn').addEventListener('click', () => {
-      const audio = document.getElementById('bgMusic');
-      audio.play();
-      showLyricsLoop();
-      generateStars();
-      document.getElementById('playBtn').style.display = 'none';
+    lyrics.forEach((line, index) => {
+      const lineDiv = document.createElement("div");
+      lineDiv.classList.add("line");
+      const delaySeconds = customDelays[index] / 1000;
+      lineDiv.style.animationDelay = `${delaySeconds}s`;
+      lineDiv.textContent = line;
+      lyricsContainer.appendChild(lineDiv);
     });
+
+    const totalDuration = customDelays[customDelays.length - 1] + 4000;
+    setTimeout(showLyricsLoop, totalDuration); // Ulang animasi
+  }
+
+  function generateStars() {
+    const starsContainer = document.getElementById("stars");
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement("div");
+      star.classList.add("star");
+      const size = Math.random() * 2 + 1;
+      const duration = Math.random() * 10 + 5;
+      const left = Math.random() * 100;
+      const delay = Math.random() * 10;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.left = `${left}%`;
+      star.style.top = `-10px`;
+      star.style.animationDuration = `${duration}s`;
+      star.style.animationDelay = `${delay}s`;
+      starsContainer.appendChild(star);
+    }
+  }
+
+  document.getElementById('playBtn').addEventListener('click', () => {
+    const audio = document.getElementById('bgMusic');
+    audio.play();
+    showLyricsLoop();
+    generateStars();
+    document.getElementById('playBtn').style.display = 'none';
+  });
   </script>
+
 </body>
 </html>
