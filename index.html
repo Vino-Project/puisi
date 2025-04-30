@@ -13,7 +13,7 @@
 
     body {
       overflow: hidden;
-      background: linear-gradient(rgb(0, 0, 0), rgba(0, 0, 0, 0.76));
+      background: linear-gradient(rgba(165, 124, 70, 0.815), rgba(0, 0, 0, 0.76));
       font-family: 'Segoe UI', sans-serif;
       height: 100vh;
       display: flex;
@@ -47,10 +47,10 @@
     .lyrics-box {
       position: relative;
       z-index: 1;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(226, 226, 226, 0.678);
       backdrop-filter: blur(10px);
       border-radius: 20px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.404);
       padding: 30px 40px;
       max-width: 80%;
       text-align: center;
@@ -64,8 +64,8 @@
       opacity: 0;
       font-size: 1.8em;
       animation: fadeIn 2s forwards;
-      color: #fff;
-      text-shadow: 2px 2px 4px #000;
+      color: rgba(165, 124, 70, 0.815);
+      text-shadow: 2px 2px 4px #b8b8b8;
       margin: 10px 0;
     }
 
@@ -80,33 +80,53 @@
     @keyframes fadeOut {
       to { opacity: 0; }
     }
+
+    #playBtn {
+      position: relative;
+      z-index: 2;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: rgb(0, 0, 0);
+      font-size: 1em;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      transition: background-color 0.3s;
+    }
+
+    #playBtn:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+    }
   </style>
 </head>
 <body>
   <div class="stars" id="stars"></div>
-  <div class="lyrics-box" id="lyrics"></div>
 
-  
-  <button id="playBtn">▶️ Mainkan Musik</button>
+  <div class="lyrics-box" id="lyrics-box">
+    <button id="playBtn">▶️play</button>
+    <div id="lyrics"></div>
+  </div>
+
   <audio id="bgMusic" src="sound_puisi.mp3" loop></audio>
-
 
   <script>
     const lyrics = [
-      "Jadikan aku rumahmu",
-      "Pergilah kemanapun dan bersama siapapun yang kamu mau",
-      "Tapi.. saat kamu merasa perjalananmu sudah selesai",
-      "Pulanglah..",
-      "Karena akulah orang itu",
-      "Orang yang selalu..",
-      "Bangga memilikimu"
+      "jadikan aku rumahmu",
+      "pergilah kemanapun dan bersama siapapun yang kamu mau",
+      "tapi.. saat kamu merasa perjalananmu sudah selesai",
+      "pulanglah..",
+      "karena akulah orang itu",
+      "orang yang selalu..",
+      "bangga memilikimu"
     ];
 
     const customDelays = [0, 2000, 5000, 8000, 11000, 12000, 14000];
     const lyricsContainer = document.getElementById("lyrics");
 
     function showLyricsLoop() {
-      // Kosongkan isi sebelumnya
       lyricsContainer.innerHTML = "";
 
       lyrics.forEach((line, index) => {
@@ -117,44 +137,42 @@
         lineDiv.textContent = line;
         lyricsContainer.appendChild(lineDiv);
 
-        // Tambahkan efek fade-out setelah 5 detik tampil
+        // Tambahkan efek fade-out setelah tampil 2 detik
         setTimeout(() => {
           lineDiv.classList.add("fade-out");
-        }, customDelays[index] + 2000, 5000, 11000, 11000, 12000, 14000);
+        }, customDelays[index] + 2000);
       });
 
-      // Hitung total durasi looping (durasi baris terakhir + fade-out)
       const totalDuration = customDelays[customDelays.length - 1] + 7000;
       setTimeout(showLyricsLoop, totalDuration); // loop ulang
     }
 
-    showLyricsLoop(); // jalankan pertama kali
-
-    // Tambahkan bintang
-    const starsContainer = document.getElementById("stars");
-    for (let i = 0; i < 100; i++) {
-      const star = document.createElement("div");
-      star.classList.add("star");
-      const size = Math.random() * 2 + 1;
-      const duration = Math.random() * 10 + 5;
-      const left = Math.random() * 100;
-      const delay = Math.random() * 10;
-      star.style.width = `${size}px`;
-      star.style.height = `${size}px`;
-      star.style.left = `${left}%`;
-      star.style.top = `-10px`;
-      star.style.animationDuration = `${duration}s`;
-      star.style.animationDelay = `${delay}s`;
-      starsContainer.appendChild(star);
+    function generateStars() {
+      const starsContainer = document.getElementById("stars");
+      for (let i = 0; i < 100; i++) {
+        const star = document.createElement("div");
+        star.classList.add("star");
+        const size = Math.random() * 2 + 1;
+        const duration = Math.random() * 10 + 5;
+        const left = Math.random() * 100;
+        const delay = Math.random() * 10;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${left}%`;
+        star.style.top = `-10px`;
+        star.style.animationDuration = `${duration}s`;
+        star.style.animationDelay = `${delay}s`;
+        starsContainer.appendChild(star);
+      }
     }
-
 
     document.getElementById('playBtn').addEventListener('click', () => {
       const audio = document.getElementById('bgMusic');
       audio.play();
+      showLyricsLoop();
+      generateStars();
+      document.getElementById('playBtn').style.display = 'none';
     });
-
-    
   </script>
 </body>
 </html>
